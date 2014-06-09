@@ -1,5 +1,5 @@
 /*
- * File:	generic_keyboard.h
+ * File:    generic_keyboard.h
  *
  * Implements a generic keyboard
  */
@@ -13,7 +13,7 @@ typedef struct keyboard keyboard_t;
 
 /*
  * event_callback_Keyboard()
- * 
+ *
  * Handle an SDL key event
  */
 void event_callback_Keyboard( keyboard_t *keyboard, uint16_t keysym, uint8_t state );

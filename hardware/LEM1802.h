@@ -1,5 +1,5 @@
 /*
- * File:	LEM1802.h
+ * File:    LEM1802.h
  *
  * Implementation of the LEM1802 monitor
  */
@@ -11,31 +11,31 @@
 
 /* display ram format */
 typedef union {
-	uint16_t all;
-	struct {
-		uint16_t c : 7;
-		uint16_t blink : 1;
-		uint16_t bg : 4;
-		uint16_t fg : 4;
-	};
+    uint16_t all;
+    struct {
+        uint16_t c : 7;
+        uint16_t blink : 1;
+        uint16_t bg : 4;
+        uint16_t fg : 4;
+    };
 } display_t;
 
 /* font format */
 typedef struct {
-	uint8_t cols[4];
+    uint8_t cols[4];
 } font_t;
 
 /* pallet format */
 typedef union {
-	uint16_t all;
-	struct {
-		uint16_t b : 4;
-		uint16_t g : 4;
-		uint16_t r : 4;
-		uint16_t resv : 4;
-	};
+    uint16_t all;
+    struct {
+        uint16_t b : 4;
+        uint16_t g : 4;
+        uint16_t r : 4;
+        uint16_t resv : 4;
+    };
 } pallet_t;
-#define _4_to_8(a)	(((a)<<4) | (a))
+#define _4_to_8(a)  (((a)<<4) | (a))
 #define PALLET_TO_RGB(x) _4_to_8((x).r), _4_to_8((x).g), _4_to_8((x).b)
 
 

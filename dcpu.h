@@ -1,9 +1,3 @@
-/*
- * File:	dcpu.h
- *
- * Implementation of the DCPU-16
- *
- */
 #ifndef DCPU_H
 #define DCPU_H
 
@@ -21,41 +15,41 @@ typedef int16_t   dcpu_reg_sign_t;
 
 /* CPU states */
 typedef enum {
-	NORMAL, SKIPPING, HALTING, ON_FIRE
+    NORMAL, SKIPPING, HALTING, ON_FIRE
 } dcpu_state_t;
 
 extern const char *state_strs[];
 
 /* cpu registers */
 typedef struct dcpu {
-	/* Registers */
-	uint16_t A, B, C, X, Y, Z, I, J;
-	/* program counter */
-	uint16_t PC;
-	/* stack pointer */
-	uint16_t SP;
-	/* extra/excess */
-	uint16_t EX;
-	/* interrupt addr */
-	uint16_t IA;
+    /* Registers */
+    uint16_t A, B, C, X, Y, Z, I, J;
+    /* program counter */
+    uint16_t PC;
+    /* stack pointer */
+    uint16_t SP;
+    /* extra/excess */
+    uint16_t EX;
+    /* interrupt addr */
+    uint16_t IA;
 
-	/* memory */
-	dcpu_ram_t memory;
+    /* memory */
+    dcpu_ram_t memory;
 
-	/* hardware */
-	dcpu_hardware_t **hardware;
-	unsigned int hardware_count;
+    /* hardware */
+    dcpu_hardware_t **hardware;
+    unsigned int hardware_count;
 
-	/* extra stuff */
-	unsigned long clocks;
-	dcpu_state_t state;
-	unsigned long frequency;
+    /* extra stuff */
+    unsigned long clocks;
+    dcpu_state_t state;
+    unsigned long frequency;
 
-	// interrupts
-	void (*interrupt)(struct dcpu *dcpu, dcpu_reg_t msg);
-	uint8_t IAQ;
-	uint16_t int_buffer[256];
-	uint16_t  ib_start, ib_end, ib_size;
+    // interrupts
+    void (*interrupt)(struct dcpu *dcpu, dcpu_reg_t msg);
+    uint8_t IAQ;
+    uint16_t int_buffer[256];
+    uint16_t  ib_start, ib_end, ib_size;
 
 
 } dcpu16_t ;

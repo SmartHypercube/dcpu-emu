@@ -1,8 +1,3 @@
-/*
- * File:	dcpu_ops.h
- *
- * DCPU operations
- */
 #ifndef DCPU_OPS_H
 #define DCPU_OPS_H
 

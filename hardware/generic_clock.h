@@ -1,5 +1,5 @@
 /*
- * File:	generic_clock.h
+ * File:    generic_clock.h
  *
  * Implements a generic clock
  */

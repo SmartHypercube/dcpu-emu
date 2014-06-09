@@ -1,5 +1,5 @@
 /*
- * File:	sdl.h
+ * File:    sdl.h
  *
  * Header for SDL related functions
  */

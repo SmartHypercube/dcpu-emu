@@ -17,7 +17,7 @@ ${TARGET}: ${OBJS}
 	${CC} -o $@ $^ ${LIBS}
 
 .PHONY: clean realclean depend
-	
+
 depend:
 	makedepend ${SOURCES} -- ${CFLAGS}
 

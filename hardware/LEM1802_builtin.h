@@ -1,5 +1,5 @@
 /*
- * File:	LEM1802_builtin.h
+ * File:    LEM1802_builtin.h
  *
  * Defines the builtin font and pallet
  */

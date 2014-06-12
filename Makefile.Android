@@ -1,0 +1,17 @@
+# Makefile for Android Terminal IDE.
+
+DIRS=.
+SOURCES=$(foreach dir,${DIRS},$(wildcard ${dir}/*.c))
+TARGET=dcpu_emu
+
+CC=terminal-gcc
+
+.PHONY: all
+all: ${TARGET}
+
+${TARGET}: ${SOURCES}
+	${CC} -o ${TARGET} ${SOURCES}
+
+.PHONY: clean
+clean:
+	-rm ${TARGET}

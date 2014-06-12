@@ -2,16 +2,16 @@
 #define DCPU_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
-struct dcpu_hardware;
-typedef struct dcpu_hardware dcpu_hardware_t;
+#include "dcpu_ops.h"
+#include "hardware_device.h"
 
 #define MAX_HARDWARE 0xFFFF
 
 /* memory is 16 bit words */
-typedef uint16_t* dcpu_ram_t;
 typedef uint16_t  dcpu_reg_t;
-typedef int16_t   dcpu_reg_sign_t;
+typedef  int16_t  dcpu_reg_sign_t;
 
 /* CPU states */
 typedef enum {
@@ -34,7 +34,7 @@ typedef struct dcpu {
     uint16_t IA;
 
     /* memory */
-    dcpu_ram_t memory;
+    uint16_t *memory;
 
     /* hardware */
     dcpu_hardware_t **hardware;
@@ -54,39 +54,29 @@ typedef struct dcpu {
 
 } dcpu16_t ;
 
-/*
- * dcpu_create
- *
- * Create a new dcpu16 with the specified program memory
- */
-void dcpu_create( dcpu16_t *dcpu, dcpu_ram_t prog );
+/* makeup of an instruction */
+typedef union {
+    uint16_t all;
+    struct {
+        uint16_t o : 5;
+        uint16_t b : 5;
+        uint16_t a : 6;
+    };
+} dcpu_inst_t;
 
-/*
- * dcpu_add_hardware
- *
- * Attach the provided hardware device to the DCPU
- */
+/* Create a new dcpu16 with the specified program memory */
+void dcpu_create( dcpu16_t *dcpu, uint16_t *prog );
+
+/* Attach the provided hardware device to the DCPU */
 int dcpu_add_hardware( dcpu16_t *dcpu, dcpu_hardware_t *hardware );
 
-/*
- * dcpu_free
- *
- * cleanup after this dcpu16
- */
+/* cleanup after this dcpu16 */
 void dcpu_free( dcpu16_t *dcpu );
 
-/*
- * dcpu_tick
- *
- * Execute a clock tick
- */
+/* Execute a clock tick */
 int dcpu_tick( dcpu16_t *dcpu );
 
-/*
- * dcpu_complete
- *
- * Returns zero when SUB PC,1 has not be encountered, nonzero otherwise
- */
+/* Returns zero when SUB PC,1 has not be encountered, nonzero otherwise */
 int dcpu_complete( dcpu16_t *dcpu );
 
 #endif

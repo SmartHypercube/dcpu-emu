@@ -1,20 +1,12 @@
 #include "dcpu.h"
-#include "dcpu_types.h"
-#include "dcpu_ops.h"
-#include "hardware_device.h"
-#include <stdlib.h>
 
 const char *state_strs[] =
 {
     "NORMAL", "SKIPPING", "HALTING", "ON FIRE"
 };
 
-/*
- * dcpu_create
- *
- * Create a new dcpu16 with the specified program memory
- */
-void dcpu_create( dcpu16_t *dcpu, dcpu_ram_t prog )
+/* Create a new dcpu16 with the specified program memory */
+void dcpu_create( dcpu16_t *dcpu, uint16_t *prog )
 {
     dcpu->state = NORMAL;
     dcpu->clocks = 0;
@@ -54,11 +46,7 @@ void dcpu_create( dcpu16_t *dcpu, dcpu_ram_t prog )
     return;
 }
 
-/*
- * dcpu_add_hardware
- *
- * Attach the provided hardware device to the DCPU
- */
+/* Attach the provided hardware device to the DCPU */
 int dcpu_add_hardware( dcpu16_t *dcpu, dcpu_hardware_t *hardware )
 {
     if( dcpu->hardware_count >= MAX_HARDWARE )
@@ -75,22 +63,14 @@ int dcpu_add_hardware( dcpu16_t *dcpu, dcpu_hardware_t *hardware )
     return 0;
 }
 
-/*
- * dcpu_free
- *
- * cleanup after this dcpu16
- */
+/* cleanup after this dcpu16 */
 void dcpu_free( dcpu16_t *dcpu )
 {
     /* NOP */
     return;
 }
 
-/*
- * dcpu_tick
- *
- * Execute a clock tick
- */
+/* Execute a clock tick */
 int dcpu_tick( dcpu16_t *dcpu )
 {
     int elapsed = 0;
@@ -119,11 +99,7 @@ int dcpu_tick( dcpu16_t *dcpu )
     }
 }
 
-/*
- * dcpu_complete
- *
- * Returns zero when SUB PC,1 has not be encountered, nonzero otherwise
- */
+/* Returns zero when SUB PC,1 has not be encountered, nonzero otherwise */
 int dcpu_complete( dcpu16_t *dcpu )
 {
     return dcpu->state == HALTING;

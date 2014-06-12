@@ -1,9 +1,4 @@
-#include <stdio.h>
-
-#include "dcpu.h"
-#include "dcpu_types.h"
 #include "dcpu_ops.h"
-#include "hardware_device.h"
 
 /* only IFx instructions have an opcode starting with a 1 */
 #define IF_MASK 0x10
@@ -702,12 +697,12 @@ int dcpu_hwq( dcpu16_t *dcpu, dcpu_inst_t inst )
 
         dcpu->C = dcpu->hardware[a]->hw_ver & 0xFFFF;
 
-        dcpu->X = dcpu->hardware[a]->man_id & 0xFFFF;
-        dcpu->Y = (dcpu->hardware[a]->man_id >> 16) & 0xFFFF;
+        dcpu->X = dcpu->hardware[a]->author_id & 0xFFFF;
+        dcpu->Y = (dcpu->hardware[a]->author_id >> 16) & 0xFFFF;
     }
     else
     {
-        fprintf( stderr, "HWQ: invalid hardware number 0x%04x\n", a);
+        printf( "HWQ: invalid hardware number 0x%04x\n", a);
     }
     return 4;
 }
@@ -722,14 +717,14 @@ int dcpu_hwi( dcpu16_t *dcpu, dcpu_inst_t inst )
     }
     else
     {
-        fprintf( stderr, "HWI: invalid hardware number 0x%04x\n", a);
+        printf( "HWI: invalid hardware number 0x%04x\n", a);
     }
     return 4;
 }
 
 int dcpu_inval( dcpu16_t *dcpu, dcpu_inst_t inst )
 {
-    fprintf(stderr, "Invalid opcode o = 0x%02x\ta = 0x%02x\tb = 0x%02x\n", inst.o, inst.a, inst.b);
+    printf( "Invalid opcode o = 0x%02x\ta = 0x%02x\tb = 0x%02x\n", inst.o, inst.a, inst.b);
     return 0;
 }
 

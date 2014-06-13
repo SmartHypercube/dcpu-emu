@@ -133,7 +133,7 @@ void set( dcpu16_t *dcpu, dcpu_reg_t val, dcpu_reg_t res )
 {
     switch(val)
     {
-        // register
+        /* register */
         case 0x00: dcpu->A = res; break;
         case 0x01: dcpu->B = res; break;
         case 0x02: dcpu->C = res; break;
@@ -143,7 +143,7 @@ void set( dcpu16_t *dcpu, dcpu_reg_t val, dcpu_reg_t res )
         case 0x06: dcpu->I = res; break;
         case 0x07: dcpu->J = res; break;
 
-        // [register]
+        /* [register] */
         case 0x08: dcpu->memory[dcpu->A] = res; break;
         case 0x09: dcpu->memory[dcpu->B] = res; break;
         case 0x0a: dcpu->memory[dcpu->C] = res; break;
@@ -153,7 +153,7 @@ void set( dcpu16_t *dcpu, dcpu_reg_t val, dcpu_reg_t res )
         case 0x0e: dcpu->memory[dcpu->I] = res; break;
         case 0x0f: dcpu->memory[dcpu->J] = res; break;
 
-        // [register+next_word]
+        /* [register+next_word] */
         case 0x10: dcpu->memory[dcpu->A + dcpu->memory[dcpu->PC++]] = res; break;
         case 0x11: dcpu->memory[dcpu->B + dcpu->memory[dcpu->PC++]] = res; break;
         case 0x12: dcpu->memory[dcpu->C + dcpu->memory[dcpu->PC++]] = res; break;
@@ -193,7 +193,7 @@ dcpu_reg_t get( dcpu16_t *dcpu, dcpu_reg_t val, int type )
 {
     switch(val)
     {
-        // register
+        /* register */
         case 0x00: return dcpu->A;
         case 0x01: return dcpu->B;
         case 0x02: return dcpu->C;
@@ -203,7 +203,7 @@ dcpu_reg_t get( dcpu16_t *dcpu, dcpu_reg_t val, int type )
         case 0x06: return dcpu->I;
         case 0x07: return dcpu->J;
 
-        // [register]
+        /* [register] */
         case 0x08: return dcpu->memory[dcpu->A];
         case 0x09: return dcpu->memory[dcpu->B];
         case 0x0a: return dcpu->memory[dcpu->C];
@@ -213,7 +213,7 @@ dcpu_reg_t get( dcpu16_t *dcpu, dcpu_reg_t val, int type )
         case 0x0e: return dcpu->memory[dcpu->I];
         case 0x0f: return dcpu->memory[dcpu->J];
 
-        // [register+next_word]
+        /* [register+next_word] */
         case 0x10: return dcpu->memory[dcpu->A + dcpu->memory[dcpu->PC++]];
         case 0x11: return dcpu->memory[dcpu->B + dcpu->memory[dcpu->PC++]];
         case 0x12: return dcpu->memory[dcpu->C + dcpu->memory[dcpu->PC++]];
@@ -225,7 +225,7 @@ dcpu_reg_t get( dcpu16_t *dcpu, dcpu_reg_t val, int type )
 
         /* POP/PUSH */
         case 0x18:
-            // don't effect SP when skipping
+            /* don't effect SP when skipping */
             if( dcpu->state != SKIPPING ) {
                 if( type == A_TYPE )
                     return dcpu->memory[dcpu->SP++];
@@ -273,38 +273,38 @@ dcpu_reg_t get_b( dcpu16_t *dcpu, dcpu_reg_t val )
  */
 void dcpu_interrupt( dcpu16_t *dcpu, dcpu_reg_t msg )
 {
-    // if IA is 0, no interrupts
+    /* if IA is 0, no interrupts */
     if( dcpu->IA == 0x0000 ) return;
 
     if( !dcpu->IAQ )
     {
-        // interrupt now
+        /* interrupt now */
 
-        // Turn on queueing
+        /* Turn on queueing */
         dcpu->IAQ = 1;
 
-        // PUSH PC, PUSH A
+        /* PUSH PC, PUSH A */
         dcpu->memory[--dcpu->SP] = dcpu->PC;
         dcpu->memory[--dcpu->SP] = dcpu->A;
 
-        // PC <- IA
-        // A  <- msg
+        /* PC <- IA */
+        /* A  <- msg */
         dcpu->PC = dcpu->IA;
         dcpu->A  = msg;
     }
     else
     {
-        // at to queue
+        /* at to queue */
         if( dcpu->ib_size >= 255 )
         {
             dcpu->state = ON_FIRE;
         }
         else
         {
-            // add to queue
+            /* add to queue */
             dcpu->int_buffer[dcpu->ib_end] = msg;
 
-            // move pointer
+            /* move pointer */
             dcpu->ib_size++;
             dcpu->ib_end = (dcpu->ib_end+1) % 256;
         }
@@ -319,16 +319,14 @@ int dcpu_do_inst( dcpu16_t *dcpu )
     dcpu_inst_t inst;
     inst.all = dcpu->memory[dcpu->PC++];
 
-    //printf("Instruction: o=0x%04x\ta=0x%04x\tb=0x%04x\n", inst.o, inst.a, inst.b );
-
     if( dcpu->state == SKIPPING )
     {
-        // we are skipping, make sure any next_words get read
+        /* we are skipping, make sure any next_words get read */
         dcpu_reg_t a;
         a = get_b( dcpu, inst.b );
         a = get_a( dcpu, inst.a );
 
-        // stop skipping if not another IF
+        /* stop skipping if not another IF */
         if( !(inst.o & IF_MASK) )
             dcpu->state = NORMAL;
 
@@ -339,7 +337,7 @@ int dcpu_do_inst( dcpu16_t *dcpu )
 
 int dcpu_special( dcpu16_t *dcpu, dcpu_inst_t inst )
 {
-    // PC was advanced previously
+    /* PC was advanced previously */
     return dcpu_special_ops[inst.b]( dcpu, inst );
 }
 
@@ -661,10 +659,10 @@ int dcpu_rfi( dcpu16_t *dcpu, dcpu_inst_t inst )
 
     a = get_a( dcpu, inst.a );
 
-    // re-enable interrupts
+    /* re-enable interrupts */
     dcpu->IAQ = 0;
 
-    // POP A, POP PC
+    /* POP A, POP PC */
     dcpu->A  = dcpu->memory[dcpu->SP++];
     dcpu->PC = dcpu->memory[dcpu->SP++];
 
@@ -700,10 +698,6 @@ int dcpu_hwq( dcpu16_t *dcpu, dcpu_inst_t inst )
         dcpu->X = dcpu->hardware[a]->author_id & 0xFFFF;
         dcpu->Y = (dcpu->hardware[a]->author_id >> 16) & 0xFFFF;
     }
-    else
-    {
-        printf( "HWQ: invalid hardware number 0x%04x\n", a);
-    }
     return 4;
 }
 int dcpu_hwi( dcpu16_t *dcpu, dcpu_inst_t inst )
@@ -715,16 +709,11 @@ int dcpu_hwi( dcpu16_t *dcpu, dcpu_inst_t inst )
     {
         dcpu->hardware[a]->interrupt( dcpu, dcpu->hardware[a] );
     }
-    else
-    {
-        printf( "HWI: invalid hardware number 0x%04x\n", a);
-    }
     return 4;
 }
 
 int dcpu_inval( dcpu16_t *dcpu, dcpu_inst_t inst )
 {
-    printf( "Invalid opcode o = 0x%02x\ta = 0x%02x\tb = 0x%02x\n", inst.o, inst.a, inst.b);
     return 0;
 }
 

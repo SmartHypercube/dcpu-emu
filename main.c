@@ -10,12 +10,10 @@ void _kill( int x )
 
 void read_prog( FILE *file )
 {
-    uint8_t *ptr = (uint8_t*)mem;
-
-    for ( ; !feof(file); ptr++ )
+    int i;
+    for ( i=0; !feof(file) && i<0x20000 ; i++ )
     {
-        fread(ptr, 1, 1, file);
-        printf ("get 0x%04x\n", *ptr);
+        fread ( ((uint8_t*)mem)+i , 1, 1, file);
     }
 }
 
@@ -64,7 +62,6 @@ int main( int argc, char ** argv )
     {
         gettimeofday( &start, NULL );
         int ticks = dcpu_tick( &dcpu );
-        reg_debug( &dcpu );
 
         gettimeofday( &end, NULL );
         int elapsed = (end.tv_sec - start.tv_sec)*1000*1000 + (end.tv_usec - start.tv_usec);
@@ -75,9 +72,6 @@ int main( int argc, char ** argv )
         {
             usleep( to_sleep );
         }
-
-        /* step-by-step mode */
-        sleep (1);
     }
 
     struct pollfd pollinfo[1];

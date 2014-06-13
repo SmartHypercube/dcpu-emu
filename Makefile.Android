@@ -1,7 +1,8 @@
 # Makefile for Android Terminal IDE.
 
 DIRS=.
-SOURCES=$(foreach dir,${DIRS},$(wildcard ${dir}/*.c))
+OBJECTS=*.o
+SOURCES=*.c
 TARGET=dcpu_emu
 
 CC=terminal-gcc

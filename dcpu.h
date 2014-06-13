@@ -4,10 +4,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "dcpu_ops.h"
-#include "hardware_device.h"
+/* put all forward-declaration here */
 
 #define MAX_HARDWARE 0xFFFF
+
+struct dcpu;
+typedef struct dcpu dcpu16_t;
 
 /* memory is 16 bit words */
 typedef uint16_t  dcpu_reg_t;
@@ -20,8 +22,22 @@ typedef enum {
 
 extern const char *state_strs[];
 
+/* makeup of an instruction */
+typedef union {
+    uint16_t all;
+    struct {
+        uint16_t o : 5;
+        uint16_t b : 5;
+        uint16_t a : 6;
+    };
+} dcpu_inst_t;
+
+/* then include... */
+#include "dcpu_ops.h"
+#include "hardware_device.h"
+
 /* cpu registers */
-typedef struct dcpu {
+struct dcpu {
     /* Registers */
     uint16_t A, B, C, X, Y, Z, I, J;
     /* program counter */
@@ -51,18 +67,7 @@ typedef struct dcpu {
     uint16_t int_buffer[256];
     uint16_t  ib_start, ib_end, ib_size;
 
-
-} dcpu16_t ;
-
-/* makeup of an instruction */
-typedef union {
-    uint16_t all;
-    struct {
-        uint16_t o : 5;
-        uint16_t b : 5;
-        uint16_t a : 6;
-    };
-} dcpu_inst_t;
+};
 
 /* Create a new dcpu16 with the specified program memory */
 void dcpu_create( dcpu16_t *dcpu, uint16_t *prog );

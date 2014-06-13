@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "dcpu.h"
+/* put all forward-declaration here */
 
 #define NEW_HARDWARE(type, ...) \
     dcpu_hardware_t* hardware = calloc(1, sizeof(dcpu_hardware_t)); \
@@ -17,8 +17,14 @@
     hardware->device_data = (void*)init_##type(__VA_ARGS__); \
     return hardware;
 
+struct dcpu_hardware;
+typedef struct dcpu_hardware dcpu_hardware_t;
+
+/* then include... */
+#include "dcpu.h"
+
 /* hardware type */
-typedef struct dcpu_hardware
+struct dcpu_hardware
 {
     void (*interrupt)(dcpu16_t*, struct dcpu_hardware*);
     void (*tick)(dcpu16_t*, struct dcpu_hardware*);
@@ -26,6 +32,6 @@ typedef struct dcpu_hardware
     uint32_t        hw_ver;
     uint32_t        author_id;
     void           *device_data;
-}dcpu_hardware_t;
+};
 
 #endif

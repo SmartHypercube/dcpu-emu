@@ -79,7 +79,8 @@ int dcpu_tick( dcpu16_t *dcpu )
 
     dcpu->clocks += elapsed;
 
-    for( int i = 0; i < dcpu->hardware_count; i++ )
+    int i;
+    for( i = 0; i < dcpu->hardware_count; i++ )
     {
         dcpu->hardware[i]->tick(dcpu, dcpu->hardware[i]);
     }

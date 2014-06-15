@@ -1,8 +1,9 @@
 # Makefile for Android Terminal IDE.
 
 DIRS=.
-OBJECTS=*.o
+OBJECTS=main.o dcpu.o dcpu_ops.o
 SOURCES=*.c
+HEADS=*.h
 TARGET=dcpu_emu
 
 CC=terminal-gcc
@@ -10,9 +11,18 @@ CC=terminal-gcc
 .PHONY: all
 all: ${TARGET}
 
-${TARGET}: ${SOURCES}
-	${CC} -o ${TARGET} ${SOURCES}
+${TARGET}: ${OBJECTS}
+	${CC} -o $@ ${OBJECTS}
+
+${OBJECTS}: ${HEADS}
 
 .PHONY: clean
-clean:
-	-rm ${TARGET}
+clean: cleanobj cleantgt
+
+.PHONY: cleanobj
+cleanobj:
+	rm -rf ${OBJECTS}
+
+.PHONY: cleantgt
+cleantgt:
+	rm -rf ${TARGET}

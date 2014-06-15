@@ -5,9 +5,11 @@ Note: This file has a Chinese (Simple) version, which is 'README.zh-CN.md' .
 === FEATURES ===
 
 * Fast Mode
+
 Many people want to code for dcpu, even write an OS for it. So it's necessary to make it faster. In Fast Mode, the frequency has no limits.
 
 * Closure
+
 I'm trying my best to make sure this emulator close. Whatever happened in the dcpu, this emulator will never throw an error or print something (unless it's some hardwares' goal).
 
 * ... and more (waiting for your idea!)

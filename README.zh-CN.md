@@ -25,3 +25,5 @@
 注意：我克隆了 github.com/Imajie/dcpu-emu 作为这个项目的基础。
 
 Fasd Snake <fasd.snake@gmail.com>
+
+这个项目使用语义化版本控制，访问 http://semver.org/ 了解更多。

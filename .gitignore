@@ -3,3 +3,4 @@ dcpu_emu
 tags
 .*.swp
 project.sh
+*.bak

@@ -27,3 +27,5 @@ Now, I want to make a tiny but reliable DCPU-16 emulator, in C and works on comm
 Note: I forked github.com/Imajie/dcpu-emu.
 
 Fasd Snake <fasd.snake@gmail.com>
+
+This project is with Semantic versioning. See http://semver.org/ .

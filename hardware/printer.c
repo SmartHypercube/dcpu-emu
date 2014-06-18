@@ -32,7 +32,8 @@ void interrupt_printer (dcpu16_t *dcpu, dcpu_hardware_t *hardware)
                 dcpu->A = 0xFFFF;
                 return;
             }
-            dcpu->A = fwrite (dcpu->memory + b, c<<1, 1, stdout);
+            dcpu->A = fwrite (dcpu->memory + b, 2*c, 1, stdout);
+            fflush (stdout);
             return;
     }
 }

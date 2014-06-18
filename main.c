@@ -35,12 +35,12 @@ int main( int argc, char ** argv )
         return 1;
     }
 
-    create_printer ();
-
     read_prog(file);
     fclose(file);
 
     dcpu_create( &dcpu, mem );
+
+    int t=dcpu_add_hardware (&dcpu, create_printer ());
 
     signal( SIGKILL, _kill );
     signal( SIGTERM, _kill );
@@ -57,7 +57,7 @@ int main( int argc, char ** argv )
 
         int to_sleep = 10*ticks - elapsed;
 
-        if( to_sleep > 0 )
+        if( to_sleep > 0 && to_sleep <100 )
         {
             usleep( to_sleep );
         }

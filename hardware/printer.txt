@@ -13,4 +13,7 @@ Interrupt behavior:
     of the following actions:
 
 0x0000: write to stdout (words)
-    Write C words form address B to stdout, if B+C>0x10000, A will be 0xFFFF and the process fails. It will only write C words or nothing. A will be 0x0001 when succeeded, 0x0000 when failed.
+    Write C words to stdout, which is form address B. If B+C > 0x10000, A will be 0xFFFF and the process fails. It will only write C words or nothing. A will be 0x0001 when succeeded, 0x0000 when failed.
+
+0x0001: write to stdout (half-words)
+    Write C bytes to stdout, which is the low bytes of C words from address B. If B+C>0x10000, A will be 0xFFFF and the process fails. It will only write C bytes or nothing. A will be 0x0001 when succeeded, 0x0000 when failed.

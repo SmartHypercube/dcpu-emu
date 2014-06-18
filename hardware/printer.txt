@@ -1,0 +1,16 @@
+Fasd Printer v0.1
+
+DCPU-16 Hardware Info:
+    Name: Printer
+    ID: 0x475e72c3, version: 0x0001
+    Manufacturer: 0xFA5D0000 (Fasd)
+
+Description:
+    Fasd Printer can write data to stdout.
+
+Interrupt behavior:
+    When a HWI is received by the Printer, it reads the A register and does one
+    of the following actions:
+
+0x0000: write to stdout (words)
+    Write C words form address B to stdout, if B+C>0x10000, A will be 0xFFFF and the process fails. It will only write C words or nothing. A will be 0x0001 when succeeded, 0x0000 when failed.

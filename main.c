@@ -48,6 +48,8 @@ int main( int argc, char ** argv )
         return 1;
     }
 
+    create_printer ();
+
     read_prog(file);
     fclose(file);
 

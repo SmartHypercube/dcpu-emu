@@ -5,10 +5,10 @@
 #define AUTHOR_ID   0xFA5D0000
 
 /* interrupt types */
-#define PRINTER_PRINT 0
+#define PRINTER_PRINT 0x0000
 
 /* Initialize */
-printer_t *init_printer (void)
+void *init_printer (void)
 {
     return NULL;
 }
@@ -21,11 +21,19 @@ void tick_printer (dcpu16_t *dcpu, dcpu_hardware_t *hardware)
 /* handle interrupts */
 void interrupt_printer (dcpu16_t *dcpu, dcpu_hardware_t *hardware)
 {
-    switch ( dcpu->A )
+    uint32_t a = dcpu->A;
+    uint32_t b = dcpu->B;
+    uint32_t c = dcpu->C;
+    switch (a)
     {
         case PRINTER_PRINT:
-
-            break;
+            if ( b+c > 0x10000 )
+            {
+                dcpu->A = 0xFFFF;
+                return;
+            }
+            dcpu->A = fwrite (dcpu->memory + b, c<<1, 1, stdout);
+            return;
     }
 }
 
@@ -34,4 +42,3 @@ dcpu_hardware_t* create_printer (void)
 {
     NEW_HARDWARE (printer);
 }
-

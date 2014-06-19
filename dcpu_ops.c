@@ -381,12 +381,6 @@ int dcpu_sub( dcpu16_t *dcpu, dcpu_inst_t inst )
     {
         dcpu->EX = 0x0000;
     }
-
-    /* check for SUB PC, 1 */
-    if( inst.b == 0x1c && a == 1 )
-    {
-        dcpu->state = HALTING;
-    }
     return 2;
 }
 int dcpu_adx( dcpu16_t *dcpu, dcpu_inst_t inst )

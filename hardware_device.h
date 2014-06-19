@@ -15,7 +15,7 @@
     hardware->author_id    = AUTHOR_ID; \
  \
     hardware->device_data = (void*)init_##type(__VA_ARGS__); \
-    return hardware;
+    return hardware
 
 struct dcpu_hardware;
 typedef struct dcpu_hardware dcpu_hardware_t;

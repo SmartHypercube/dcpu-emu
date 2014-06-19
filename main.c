@@ -40,7 +40,8 @@ int main( int argc, char ** argv )
 
     dcpu_create( &dcpu, mem );
 
-    int t=dcpu_add_hardware (&dcpu, create_printer ());
+    dcpu_add_hardware (&dcpu, create_printer ());
+    dcpu_add_hardware (&dcpu, create_cpucontrol ());
 
     signal( SIGKILL, _kill );
     signal( SIGTERM, _kill );

@@ -295,11 +295,7 @@ void dcpu_interrupt( dcpu16_t *dcpu, dcpu_reg_t msg )
     else
     {
         /* at to queue */
-        if( dcpu->ib_size >= 255 )
-        {
-            dcpu->state = ON_FIRE;
-        }
-        else
+        if( dcpu->ib_size < 255 )
         {
             /* add to queue */
             dcpu->int_buffer[dcpu->ib_end] = msg;

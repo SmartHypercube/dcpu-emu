@@ -36,6 +36,7 @@ typedef union {
 #include "dcpu_ops.h"
 #include "hardware_device.h"
 #include "hardware/printer.h"
+#include "hardware/cpucontrol.h"
 
 /* cpu registers */
 struct dcpu {

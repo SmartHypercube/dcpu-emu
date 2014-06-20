@@ -1,0 +1,15 @@
+Fasd CPU_control v0.1
+
+DCPU-16 Hardware Info:
+    Name: CPU_control
+    ID: 0x06b09c12, version: 0x0001
+    Manufacturer: 0xFA5D0000 (Fasd)
+
+Description:
+    Fasd CPU_control can control DCPU-16.
+
+Interrupt behavior:
+    When a HWI is received by the CPU_control, it reads the A register and does one of the following actions:
+
+0x0000: shutdown
+    Shutdown DCPU-16.

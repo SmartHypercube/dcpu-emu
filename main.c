@@ -64,10 +64,6 @@ int main( int argc, char ** argv )
         }
     }
 
-    struct pollfd pollinfo[1];
-    pollinfo[0].fd = 0;
-    pollinfo[0].events = POLLIN;
-
     dcpu_free( &dcpu );
 
     return 0;

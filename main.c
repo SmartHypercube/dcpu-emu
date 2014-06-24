@@ -2,10 +2,10 @@
 
 uint16_t mem[0x10000];
 
-int killed = 0;
-void _kill( int x )
+void _kill (int x)
 {
-    killed = 1;
+    arch_exit_program ();
+    exit (1);
 }
 
 void read_prog( FILE *file )
@@ -35,6 +35,12 @@ int main( int argc, char ** argv )
         return 1;
     }
 
+    arch_begin_program ();
+
+    signal (SIGKILL, _kill);
+    signal (SIGTERM, _kill);
+    signal (SIGINT,  _kill);
+
     read_prog(file);
     fclose(file);
 
@@ -43,12 +49,8 @@ int main( int argc, char ** argv )
     dcpu_add_hardware (&dcpu, create_printer ());
     dcpu_add_hardware (&dcpu, create_cpucontrol ());
 
-    signal( SIGKILL, _kill );
-    signal( SIGTERM, _kill );
-    signal( SIGINT, _kill );
-
     struct timeval start, end;
-    while( !dcpu_complete( &dcpu ) && !killed )
+    while ( ! dcpu_complete (&dcpu) )
     {
         gettimeofday( &start, NULL );
         int ticks = dcpu_tick( &dcpu );
@@ -65,6 +67,8 @@ int main( int argc, char ** argv )
     }
 
     dcpu_free( &dcpu );
+
+    arch_exit_program ();
 
     return 0;
 }

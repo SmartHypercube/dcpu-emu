@@ -1,8 +1,10 @@
 # Makefile for Android Terminal IDE.
 
-OBJECTS=main.o dcpu.o dcpu_ops.o hardware/printer.o hardware/cpucontrol.o
-SOURCES=*.c hardware/*.c
-HEADS=*.h hardware/*.h
+ARCH=linux
+
+OBJECTS=main.o dcpu.o dcpu_ops.o arch/${ARCH}.o hardware/printer.o hardware/cpucontrol.o
+SOURCES=*.c arch/${ARCH}.c hardware/*.c
+HEADS=*.h arch/${ARCH}.h hardware/*.h
 TARGET=dcpu_emu
 
 CC=terminal-gcc

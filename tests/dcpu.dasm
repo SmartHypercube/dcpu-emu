@@ -1,0 +1,83 @@
+; DCPU test
+;
+; This file tests DCPU's basic functions (without
+; hardwares).
+; Finally, it will jump to :PASS or :FAIL to report its
+; result.
+
+;IFN
+set a,0 ifn a,0 set pc,FAIL
+set a,1 ifn a,1 set pc,FAIL
+set a,0xffff ifn a,0xffff set pc,FAIL
+
+; Basic opcodes
+; SET
+set a,0x74f1 set b,a
+set c,0x8000 set [c],b
+sub c,1 set c,[c+1]
+set push,c set push,0 set x,[sp+1]
+set sp,x set ex,sp set y,ex
+set pc,SET_L1 set pc,FAIL
+:SET_L1
+ifn y,0x74f1 set pc,FAIL
+
+; ADD
+set a,0x4567 set b,0x5678 add a,b
+ifn ex,0 set pc,FAIL
+ifn a,0x9bdf set pc,FAIL
+add a,b
+ifn ex,0 set pc,FAIL
+ifn a,0xf257 set pc,FAIL
+add a,0x1020
+ifn ex,1 set pc,FAIL
+ifn a,0x0277 set pc,FAIL
+add a,0xffff
+ifn ex,1 set pc,FAIL
+ifn a,0x0276 set pc,FAIL
+
+; SUB
+set a,0x0276 sub a,0xffff
+ifn ex,0xffff set pc,FAIL
+ifn a,0x0277 set pc,FAIL
+sub a,0x1020
+ifn ex,0xffff set pc,FAIL
+ifn a,0xf257 set pc,FAIL
+set b,0x5678 sub a,b
+ifn ex,0 set pc,FAIL
+ifn a,0x9bdf set pc,FAIL
+sub a,b
+ifn ex,0 set pc,FAIL
+ifn a,0x4567 set pc,FAIL
+
+; MUL
+
+; Waiting for complete... I'm lazy
+
+; Finally, we assume that this dcpu has mounted Fasd
+; Printer at 0x0000 and Fasd CPU_control at 0x0001.
+; So we print the result with these hardwares.
+; Your can modify the way the result is shown.
+
+:PASS
+set a,0x0001 set b,PASS_str set c,PASS_str_end sub c,b
+hwi 0x0000 ; print
+set x,0x0000 ; if it doesn't have Fasd Printer
+set a,0x0000
+hwi 0x0001 ; shutdown
+sub pc,1 ; if it doesn't have Fasd CPU_control
+
+:PASS_str
+dat "Pass!",0x0a
+:PASS_str_end
+
+:FAIL
+set a,0x0001 set b,FAIL_str set c,FAIL_str_end sub c,b
+hwi 0x0000 ; print
+set x,0xffff ; if it doesn't have Fasd Printer
+set a,0x0000
+hwi 0x0001 ; shutdown
+sub pc,1 ; if it doesn't have Fasd CPU_control
+
+:FAIL_str
+dat "Fail!",0x0a
+:FAIL_str_end

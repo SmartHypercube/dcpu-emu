@@ -2,7 +2,7 @@
 
 ARCH=linux
 
-OBJECTS=main.o dcpu.o dcpu_ops.o arch/${ARCH}.o hardware/printer.o hardware/cpucontrol.o
+OBJECTS=main.o dcpu.o dcpu_ops.o arch/${ARCH}.o hardware/printer.o hardware/cpucontrol.o hardware/keyboard.o
 SOURCES=*.c arch/${ARCH}.c hardware/*.c
 HEADS=*.h arch/${ARCH}.h hardware/*.h
 TARGET=dcpu_emu

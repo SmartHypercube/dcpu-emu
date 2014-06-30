@@ -48,6 +48,7 @@ int main( int argc, char ** argv )
 
     dcpu_add_hardware (&dcpu, create_printer ());
     dcpu_add_hardware (&dcpu, create_cpucontrol ());
+    dcpu_add_hardware (&dcpu, create_keyboard ());
 
     struct timeval start, end;
     while ( ! dcpu_complete (&dcpu) )

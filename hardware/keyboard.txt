@@ -6,10 +6,14 @@ DCPU-16 Hardware Info:
     Manufacturer: 0xFA5D0000 (Fasd)
 
 Description:
-    Fasd Keyboard can deal with the input of stdin while running. It has a buffer which can store 0x10000 chars. And when a key was tapped, it will call an interrupt. Before use it, remember to enable it :)
+    Fasd Keyboard can deal with the input of stdin while running. When a key was tapped, it will call an interrupt. Before using it, remember to enable it :)
 
 Interrupt behavior:
     When a HWI is received by the Keyboard, it reads the A register and does one of the following actions:
 
-0x0000: 
-    Shutdown DCPU-16.
+0x0000: enable/disable
+    if B==0, Keyboard will be disabled. Otherwise Keyboard will be enabled and the input buffer will be wiped, the interrupt number will be set to B.
+    When there's a key event, the key is stored and Keyboard makes a interrupt. Then you should use func 0x0001 to get the key.
+
+0x0001: get a char
+    Get a char in A. A==0xFFFF means the end-of-file.
